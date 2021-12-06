@@ -1,0 +1,38 @@
+
+
+<div>
+  <br>
+  <label for="new-reservation">Reservation name: </label>
+  <br>
+  <input id="new-reservation" #reservationName/>
+  <label for="new-reservation">Date</label>
+  <br>
+   
+  <select class="dropdown" id="date" required #reservationDate>
+    
+    <option *ngFor="let date of dates" [value]="date">{{date}}</option>
+
+  </select>
+  
+
+  <br>
+  <br>
+  <br>
+  <br>
+  <button class="add-button" (click)="add(reservationName.value, reservationDate.value) ; reservationDate.value=''">
+    Add reservation
+  </button>
+  <br>
+  <br>
+</div>
+<h2>  Shows Reservations</h2>
+
+<ul class="reservations">
+  <li *ngFor="let reservation of reservations">
+    <a routerLink="/detail/{{reservation.id}}">
+      <span class="badge">{{reservation.id}}</span>{{reservation.name}}, {{reservation.date}}
+    </a>
+    <button class="delete" title="delete reservation"
+      (click)="delete(reservation)">Delete</button>
+  </li>
+</ul>
