@@ -26,21 +26,21 @@ export class ReservationService {
   getReservations(): Observable<Reservation[]> {
     return this.http.get<Reservation[]>(this.reservationsUrl)
       .pipe(
-        tap(_ => this.log('fetched heroes')),
+        tap(_ => this.log('fetched reservation')),
         catchError(this.handleError<Reservation[]>('getReservation', []))
       );
   }
 
 
   /** GET Reservation by id. Return `undefined` when id not found */
-  getHeroNo404<Data>(id: number): Observable<Reservation> {
+  getReservationNo404<Data>(id: number): Observable<Reservation> {
     const url = `${this.reservationsUrl}/?id=${id}`;
     return this.http.get<Reservation[]>(url)
       .pipe(
         map(reservations => reservations[0]), // returns a {0|1} element array
         tap(h => {
           const outcome = h ? `fetched` : `did not find`;
-          this.log(`${outcome} hero id=${id}`);
+          this.log(`${outcome} reservation id=${id}`);
         }),
         catchError(this.handleError<Reservation>(`getReservation id=${id}`))
       );
@@ -56,10 +56,10 @@ export class ReservationService {
     );
   }
 
-  /* GET heroes whose name contains search term */
+  /* GET Reservations whose name contains search term */
   searchReservations(term: string): Observable<Reservation[]> {
     if (!term.trim()) {
-      // if not search term, return empty hero array.
+      // if not search term, return empty reservation array.
       return of([]);
     }
     return this.http.get<Reservation[]>(`${this.reservationsUrl}/?name=${term}`).pipe(
@@ -75,7 +75,7 @@ export class ReservationService {
   /** POST: add a new reservering to the server */
   addReservation(reservering: Reservation): Observable<Reservation> {
     return this.http.post<Reservation>(this.reservationsUrl, reservering, this.httpOptions).pipe(
-      tap((newReservation: Reservation) => this.log(`added hero w/ id=${newReservation.id}`)),
+      tap((newReservation: Reservation) => this.log(`added reservation w/ id=${newReservation.id}`)),
       catchError(this.handleError<Reservation>('addReservation'))
     );
   }
@@ -85,7 +85,7 @@ export class ReservationService {
     const url = `${this.reservationsUrl}/${id}`;
 
     return this.http.delete<Reservation>(url, this.httpOptions).pipe(
-      tap(_ => this.log(`reservation hero id=${id}`)),
+      tap(_ => this.log(`reservation reservation id=${id}`)),
       catchError(this.handleError<Reservation>('deleteReservation'))
     );
   }
@@ -93,8 +93,8 @@ export class ReservationService {
   /** PUT: update the reservation on the server */
   updateReservation(reservation: Reservation): Observable<any> {
     return this.http.put(this.reservationsUrl, reservation, this.httpOptions).pipe(
-      tap(_ => this.log(`updated hero id=${reservation.id}`)),
-      catchError(this.handleError<any>('updateHero'))
+      tap(_ => this.log(`updated reservation id=${reservation.id}`)),
+      catchError(this.handleError<any>('updateReservation'))
     );
   }
 
